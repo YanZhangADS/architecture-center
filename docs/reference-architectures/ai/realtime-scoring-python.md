@@ -12,11 +12,15 @@ ms.custom: azcat-ai
 
 # Real-time scoring of Python scikit-learn and deep learning models on Azure
 
-This reference architecture shows how to deploy Python models as web services to make real-time predictions using the Azure Machine Learning service. Two scenarios are covered: deploying regular Python models, and the specific requirements of deploying deep learning models. Both scenarios use the architecture shown.
+This reference architecture shows how to deploy Python models as web services to make real-time predictions using the Azure Machine Learning service. Two scenarios are covered: deploying regular Python models, and the specific requirements of deploying deep learning models. Two reference implementations for this architecture are available on GitHub, one for [regular Python models][github-python] and one for [deep learning models][github-dl].
 
-Two reference implementations for this architecture are available on GitHub, one for [regular Python models][github-python] and one for [deep learning models][github-dl].
+For each of these two scenarios, there are two deployment options provided: deploying to Azure Kubernetes Service (AKS) and deploying to an edge device using Azure IoT Edge. Following two diagrams show architectures for these two deployment options, respectively.
+
+
 
 ![Architecture diagram for real-time scoring of Python models on Azure](./_images/python-model-architecture.png)
+
+![Architecture diagram for real-time scoring of Python models on Azure - IoT edge](./_images/python-model-architecture-iotedge.png)
 
 ## Scenarios
 
@@ -57,15 +61,21 @@ The application flow for the deep learning model is as follows:
 
 ## Architecture
 
-This architecture consists of the following components.
+Both architectures share of the following common components.
 
 **[Azure Machine Learning service][aml]** is a cloud service that is used to train, deploy, automate and manage machine learning models, all at the broad scale that the cloud provides. It is used in this architecture to manage the deployment of models as well as authentication, routing, and load balancing of the web service.
 
 **[Virtual machine][vm]** (VM). The VM is shown as an example of a device &mdash; local or in the cloud &mdash; that can send an HTTP request.
 
+**[Azure Container Registry][acr]** enables storage of images for all types of Docker container deployments including DC/OS, Docker Swarm and Kubernetes. The scoring images are deployed as containers on Azure Kubernetes Service and used to run the scoring script. The image used here is created by Machine Learning from the trained model and scoring script, and then is pushed to the Azure Container Registry.
+
+Component specifically for AKS deployment:
+
 **[Azure Kubernetes Service][aks]** (AKS) is used to deploy the application on a Kubernetes cluster. AKS simplifies the deployment and operations of Kubernetes. The cluster can be configured using CPU-only VMs for regular Python models or GPU-enabled VMs for deep learning models.
 
-**[Azure Container Registry][acr]** enables storage of images for all types of Docker container deployments including DC/OS, Docker Swarm and Kubernetes. The scoring images are deployed as containers on Azure Kubernetes Service and used to run the scoring script. The image used here is created by Machine Learning from the trained model and scoring script, and then is pushed to the Azure Container Registry.
+Component specifically for IoT Edge deployment:
+
+**[Azure IoT Edge][iotedge]** is used to deploy the application as a module on the customer chosen edge device. Azure IoT Edge supports [certain types](https://docs.microsoft.com/en-us/azure/iot-edge/support) of edge devices. The edge device used in this tutorial is a Ubuntu Linux VM.  A CPU-only VM is used as the edge device for regular Python models, and a GPU-enabled VM is used as the edge device for deep learning models.
 
 ## Performance considerations
 
