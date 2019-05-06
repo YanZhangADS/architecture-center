@@ -61,7 +61,7 @@ The application flow for the deep learning model is as follows:
 
 ## Architecture
 
-Both architectures share of the following common components.
+Both architectures share of the following common components:
 
 **[Azure Machine Learning service][aml]** is a cloud service that is used to train, deploy, automate and manage machine learning models, all at the broad scale that the cloud provides. It is used in this architecture to manage the deployment of models as well as authentication, routing, and load balancing of the web service.
 
@@ -75,7 +75,7 @@ Component specifically for AKS deployment:
 
 Component specifically for IoT Edge deployment:
 
-**[Azure IoT Edge][iotedge]** is used to deploy the application as a module on the customer chosen edge device. Azure IoT Edge supports [certain types](https://docs.microsoft.com/en-us/azure/iot-edge/support) of edge devices. The edge device used in this tutorial is a Ubuntu Linux VM.  A CPU-only VM is used as the edge device for regular Python models, and a GPU-enabled VM is used as the edge device for deep learning models.
+**[Azure IoT Edge][iotedge]** is used to deploy the application as a module on the customer chosen edge device. Azure IoT Edge supports [certain types](https://docs.microsoft.com/en-us/azure/iot-edge/support) of edge devices. The edge device used in this architecture is a Ubuntu Linux VM. A CPU-only VM is used as the edge device for regular Python models, and a GPU-enabled VM is used as the edge device for deep learning models. In real scenarios, the edge device can be replaced by any qualified devices. 
 
 ## Performance considerations
 
